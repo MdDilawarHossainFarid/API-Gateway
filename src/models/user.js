@@ -1,5 +1,8 @@
 "use strict";
 const { Model } = require("sequelize");
+const bcrypt = require("bcrypt");
+const { ServerConfig } = require("../config");
+const { Console } = require("winston/lib/winston/transports");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -34,5 +37,16 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "User",
     }
   );
+
+  User.beforeCreate(function encrypt(user) {
+    console.log("User object before encryption", user);
+    const encryptedPassword = bcrypt.hashSync(
+      user.password,
+      +ServerConfig.SALT_ROUNDS
+    );
+    user.password = encryptedPassword;
+    console.log("User object after encryption", user);
+  });
+
   return User;
 };
