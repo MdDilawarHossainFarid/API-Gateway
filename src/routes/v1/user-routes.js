@@ -9,6 +9,10 @@ router.post(
   AuthRequestMiddlewares.validateAuthRequest,
   UserController.signup
 );
-router.post("/signin", UserController.signin);
+router.post(
+  "/signin",
+  AuthRequestMiddlewares.validateAuthRequest,
+  UserController.signin
+);
 
 module.exports = router;
