@@ -32,6 +32,7 @@ app.use(
     changeOrigin: true,
   })
 );
+
 app.use("/api", apiRoutes);
 
 app.listen(ServerConfig.PORT, () => {
